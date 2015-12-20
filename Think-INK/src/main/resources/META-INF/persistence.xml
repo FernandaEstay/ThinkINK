@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.1" xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
+  <persistence-unit name="thinkINK" transaction-type="JTA">
+    <jta-data-source>jdbc/thinkINK</jta-data-source>
+    <class>models.Foto</class>
+    <class>models.Etiqueta</class>
+    <class>models.HashtagUsuarioFoto</class>
+    <class>models.Galeria</class>
+    <class>models.MeGusta</class>
+    <class>models.Usuario</class>
+    <class>models.Hashtag</class>
+    <class>models.Trabajo</class>
+    <class>models.Faq</class>
+  </persistence-unit>
+</persistence>
