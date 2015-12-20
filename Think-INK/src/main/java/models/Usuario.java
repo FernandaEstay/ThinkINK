@@ -87,10 +87,10 @@ public class Usuario implements Serializable {
     private String pass;
     @Lob
     @Column(name = "AVATAR")
-    private byte[] avatar;
+    private String avatar;
     @Lob
     @Column(name = "PORTADA")
-    private byte[] portada;
+    private String portada;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private Collection<Galeria> galeriaCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
@@ -183,19 +183,19 @@ public class Usuario implements Serializable {
         this.pass = pass;
     }
 
-    public byte[] getAvatar() {
+    public String getAvatar() {
         return avatar;
     }
 
-    public void setAvatar(byte[] avatar) {
+    public void setAvatar(String avatar) {
         this.avatar = avatar;
     }
 
-    public byte[] getPortada() {
+    public String getPortada() {
         return portada;
     }
 
-    public void setPortada(byte[] portada) {
+    public void setPortada(String portada) {
         this.portada = portada;
     }
 
