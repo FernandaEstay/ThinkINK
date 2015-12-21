@@ -9,4 +9,18 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+
+	<servlet>
+	    <servlet-name>service.JaxRsActivator</servlet-name>
+	    <multipart-config>
+	        <location>/Users/luis</location>
+	        <max-file-size>35000000</max-file-size>
+	        <max-request-size>218018841</max-request-size>
+	        <file-size-threshold>0</file-size-threshold>
+	    </multipart-config>
+	</servlet>
+	<servlet-mapping>
+	    <servlet-name>service.JaxRsActivator</servlet-name>
+	    <url-pattern>/rest/*</url-pattern>
+	</servlet-mapping>
 </web-app>
