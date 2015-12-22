@@ -7,7 +7,7 @@ import models.Usuario;
 @Local
 public interface UsuarioEJBLocal {
 	
-	String Login(Usuario usuario);
-	String Registro(Usuario usuario);
+	Usuario Login(Usuario usuario);
+	Usuario Registro(Usuario usuario);
 
 }

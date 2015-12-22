@@ -32,22 +32,8 @@ public class RegistroService {
 	@POST //cambiar a GET en caso de prueba
 	@Consumes({"application/json"})
 	@Produces({"application/json"})
-	public Response registro(Usuario usuario){
-		/*
-		Usuario user = new Usuario();
-		
-		user.setNombreUsuario("fernanda");
-		user.setCorreo("festay14@gmail.com");
-		user.setEstadoCuenta("activa");
-		user.setPass("contrasena");
-		user.setTipoUsuario("tatuador");
-		Date fechaCreacion = new Date();
-		user.setFechaCreacion(fechaCreacion);*/
-		
-		JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
-		jsonObjBuilder.add("mensaje", usuarioEJB.Registro(usuario)); //cambiar usuario por user en caso de prueba
-		JsonObject jsonObj = jsonObjBuilder.build();
-		return Response.status(Response.Status.OK).entity(jsonObj).build();
+	public Usuario registro(Usuario usuario){
+		return usuarioEJB.Registro(usuario);
 	
 	}
 }

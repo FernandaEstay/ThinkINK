@@ -3,10 +3,12 @@ package ejb;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 
+import facade.GaleriaEJBFacade;
 import facade.UsuarioEJBFacade;
 
 import java.util.*;
 
+import models.Galeria;
 import models.Usuario;
 
 @Stateless
@@ -15,28 +17,79 @@ public class UsuarioEJB implements UsuarioEJBLocal {
 	@EJB 
 	UsuarioEJBFacade usuarioFacade;
 	
+	@EJB
+	GaleriaEJBFacade galeriaFacade;
+	
 	@Override
-	public String Login(Usuario usuario){
+	public Usuario Login(Usuario usuario){
 		 List <Usuario> list = usuarioFacade.findAll();
+		 Usuario usuarioLogin = new Usuario();
+		 
          int largo = list.size();
          int contador = 0;
          while(largo != 0){
              if(usuario.getNombreUsuario().equals(list.get(contador).getNombreUsuario()) && usuario.getPass().equals(list.get(contador).getPass())){
-                 return "true";
+                 
+            	 usuarioLogin.setCorreo(list.get(contador).getCorreo());
+                 usuarioLogin.setIdUsuario(list.get(contador).getIdUsuario());
+                 usuarioLogin.setNombreUsuario(list.get(contador).getNombreUsuario());
+            	 return usuarioLogin;
              }
              contador ++;
              largo --;
          }
-         return "false";   
+         return usuarioLogin;   
 	}
 	
 	@Override
-	public String Registro(Usuario usuario){
+	public Usuario Registro(Usuario usuario){
+		
+		Usuario usuarioRegistro = new Usuario();
+		
 		if(VerificarCorreo(usuario) && VerificarNombreUsuario(usuario) ){
+			
+			Date fechaCreacion = new Date();
+			usuario.setFechaCreacion(fechaCreacion);
+			usuario.setEstadoCuenta("ACTIVA");
+			
 			usuarioFacade.create(usuario);
-			return "True";
+			List <Usuario> usuarios = usuarioFacade.findAll();
+			int largo = usuarios.size();
+			
+			Galeria galeriaSubida = new Galeria();
+			Galeria galeriaEtiqueta = new Galeria();
+			
+			for(int i = 0; i < largo; i++){
+				if(usuario.getNombreUsuario().equals(usuarios.get(i).getNombreUsuario())){
+					
+					usuarioRegistro.setCorreo(usuarios.get(i).getCorreo());
+					usuarioRegistro.setIdUsuario(usuarios.get(i).getIdUsuario());
+					usuarioRegistro.setNombreUsuario(usuarios.get(i).getNombreUsuario());
+					
+					if(usuarios.get(i).getTipoUsuario().equals("TATUADOR")){
+					
+						galeriaSubida.setIdUsuario(usuarios.get(i));
+						galeriaSubida.setNombre("SUBIDAS");
+						galeriaSubida.setTipo("SUBIDA");
+						galeriaFacade.create(galeriaSubida);
+						
+						galeriaEtiqueta.setIdUsuario(usuarios.get(i));
+						galeriaEtiqueta.setNombre("ETIQUETA");
+						galeriaEtiqueta.setTipo("ETIQUETA");
+						galeriaFacade.create(galeriaEtiqueta);
+					}
+					if(usuarios.get(i).getTipoUsuario().equals("NORMAL")){
+						galeriaSubida.setIdUsuario(usuarios.get(i));
+						galeriaSubida.setNombre("SUBIDAS");
+						galeriaSubida.setTipo("SUBIDA");
+						galeriaFacade.create(galeriaSubida);;
+					}
+					
+				}
+			}
+			return usuarioRegistro;
 		}
-		return "False";
+		return usuarioRegistro;
 	}
 	
 	public Boolean VerificarCorreo(Usuario usuario){

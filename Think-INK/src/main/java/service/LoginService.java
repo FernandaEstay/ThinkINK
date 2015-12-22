@@ -26,21 +26,19 @@ public class LoginService {
 	@EJB
 	UsuarioEJBFacade userFacade;
 	
-	@POST //cambiar a GET en caso de prueba
+	@POST 
     @Consumes({"application/json"})
 	@Produces({"application/json"})
-    public Response login(Usuario usuario){
-		/*
-		Usuario user = new Usuario();
-		
-		user.setNombreUsuario("fernanda");		//si el nombre de usuario o contraseña no existen envia un false
-		user.setPass("contrasena");*/
-		
-        JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
-        jsonObjBuilder.add( "message", usuarioEJB.Login(usuario));  //cambiar por user en caso de prueba
+    public Usuario login(Usuario usuario){
+        /*JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
+        jsonObjBuilder.add( "message", usuarioEJB.Login(usuario));
         JsonObject jsonObj = jsonObjBuilder.build();
-        return Response.status( Response.Status.OK ).entity( jsonObj ).build();
-    }
+        return Response.status( Response.Status.OK ).entity( jsonObj ).build();*/ 
+		Usuario usuarioLogin = new Usuario();
+		usuarioLogin = usuarioEJB.Login(usuario);
+		
+		return usuarioLogin;
+	}
 	
 	@GET
 	@Path("/Prueba")		//lista todos los usuarios de la base de datos
