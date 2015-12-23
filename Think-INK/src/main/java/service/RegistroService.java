@@ -32,8 +32,19 @@ public class RegistroService {
 	@POST //cambiar a GET en caso de prueba
 	@Consumes({"application/json"})
 	@Produces({"application/json"})
-	public Usuario registro(Usuario usuario){
-		return usuarioEJB.Registro(usuario);
+	public Response registro(Usuario usuario){
+		Usuario user = new Usuario();
+		user = usuarioEJB.Registro(usuario);
+		if(user.getCorreo() == null){
+			JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
+	        jsonObjBuilder.add("ERROR", "El nombre de usuario o correo no se encuentran disponibles");
+	        JsonObject jsonObj = jsonObjBuilder.build();
+	        return Response.status(Response.Status.OK).entity(jsonObj).build();
+		}
+		else{
+			return Response.status(Response.Status.OK).entity(user).build();
+		}
+		
 	
 	}
 }

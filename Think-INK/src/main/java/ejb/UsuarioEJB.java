@@ -47,44 +47,21 @@ public class UsuarioEJB implements UsuarioEJBLocal {
 		Usuario usuarioRegistro = new Usuario();
 		
 		if(VerificarCorreo(usuario) && VerificarNombreUsuario(usuario) ){
-			
-			Date fechaCreacion = new Date();
-			usuario.setFechaCreacion(fechaCreacion);
-			usuario.setEstadoCuenta("ACTIVA");
-			
-			usuarioFacade.create(usuario);
+			crearUsuario(usuario);
 			List <Usuario> usuarios = usuarioFacade.findAll();
 			int largo = usuarios.size();
 			
-			Galeria galeriaSubida = new Galeria();
-			Galeria galeriaEtiqueta = new Galeria();
-			
 			for(int i = 0; i < largo; i++){
+				
 				if(usuario.getNombreUsuario().equals(usuarios.get(i).getNombreUsuario())){
-					
 					usuarioRegistro.setCorreo(usuarios.get(i).getCorreo());
 					usuarioRegistro.setIdUsuario(usuarios.get(i).getIdUsuario());
 					usuarioRegistro.setNombreUsuario(usuarios.get(i).getNombreUsuario());
+					crearGaleria(usuarios.get(i), "SUBIDA");
 					
-					if(usuarios.get(i).getTipoUsuario().equals("TATUADOR")){
-					
-						galeriaSubida.setIdUsuario(usuarios.get(i));
-						galeriaSubida.setNombre("SUBIDAS");
-						galeriaSubida.setTipo("SUBIDA");
-						galeriaFacade.create(galeriaSubida);
-						
-						galeriaEtiqueta.setIdUsuario(usuarios.get(i));
-						galeriaEtiqueta.setNombre("ETIQUETA");
-						galeriaEtiqueta.setTipo("ETIQUETA");
-						galeriaFacade.create(galeriaEtiqueta);
+					if(usuarios.get(i).getTipoUsuario().equals("TATUADOR")){						
+						crearGaleria(usuarios.get(i),"ETIQUETA");
 					}
-					if(usuarios.get(i).getTipoUsuario().equals("NORMAL")){
-						galeriaSubida.setIdUsuario(usuarios.get(i));
-						galeriaSubida.setNombre("SUBIDAS");
-						galeriaSubida.setTipo("SUBIDA");
-						galeriaFacade.create(galeriaSubida);;
-					}
-					
 				}
 			}
 			return usuarioRegistro;
@@ -113,4 +90,21 @@ public class UsuarioEJB implements UsuarioEJBLocal {
 		}
 		return true;
 	}
+	
+	public void crearUsuario(Usuario usuario){
+		Date fechaCreacion = new Date();
+		usuario.setFechaCreacion(fechaCreacion);
+		usuario.setEstadoCuenta("ACTIVA");
+		
+		usuarioFacade.create(usuario);
+	}
+	
+	public void crearGaleria(Usuario usuario, String nombre){
+		Galeria galeria = new Galeria();
+		galeria.setIdUsuario(usuario);
+		galeria.setNombre(nombre);
+		galeria.setTipo(nombre);
+		galeriaFacade.create(galeria);
+	}
+	
 }

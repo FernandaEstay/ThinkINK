@@ -29,15 +29,21 @@ public class LoginService {
 	@POST 
     @Consumes({"application/json"})
 	@Produces({"application/json"})
-    public Usuario login(Usuario usuario){
-        /*JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
-        jsonObjBuilder.add( "message", usuarioEJB.Login(usuario));
-        JsonObject jsonObj = jsonObjBuilder.build();
-        return Response.status( Response.Status.OK ).entity( jsonObj ).build();*/ 
+    public Response login(Usuario usuario){
+        
 		Usuario usuarioLogin = new Usuario();
 		usuarioLogin = usuarioEJB.Login(usuario);
 		
-		return usuarioLogin;
+		if(usuarioLogin.getCorreo() == null ){
+			JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
+	        jsonObjBuilder.add("ERROR", "nombre de usuario o contraseña inválida");
+	        JsonObject jsonObj = jsonObjBuilder.build();
+	        
+	        return Response.status(Response.Status.OK).entity(jsonObj).build();
+	    }
+		else{
+			return Response.status( Response.Status.OK ).entity( usuarioLogin ).build();
+		} 
 	}
 	
 	@GET
