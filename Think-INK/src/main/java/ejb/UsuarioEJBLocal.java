@@ -9,5 +9,5 @@ public interface UsuarioEJBLocal {
 	
 	Usuario Login(Usuario usuario);
 	Usuario Registro(Usuario usuario);
-
+	Usuario obtenerUsuario(int id);
 }

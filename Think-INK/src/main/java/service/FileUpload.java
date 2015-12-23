@@ -8,7 +8,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Date;
 
+import javax.ejb.EJB;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
@@ -26,10 +28,24 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import sun.misc.IOUtils;
+import ejb.UsuarioEJB;
+import ejb.UsuarioEJBLocal;
+import facade.FotoEJBFacade;
+import facade.UsuarioEJBFacade;
+import models.Foto;
+import models.Galeria;
+import models.Usuario;
 
 @Path("/")
 public class FileUpload {
 	
+	
+	@EJB
+	UsuarioEJBLocal usuarioEJB;
+	@EJB
+	UsuarioEJBFacade userFacade;
+	@EJB
+	FotoEJBFacade fotoFacade;
 	//Maneja las imagenes en la url Think-INK/rest/fileupload
 	//la parte de /rest/ esta en el archivo web.xml
     @POST
@@ -38,11 +54,12 @@ public class FileUpload {
     public Response doUpload(@Context HttpServletRequest request) {
         JsonArrayBuilder array = Json.createArrayBuilder();
         try {
-        	
+        	Date fecha = new Date();
+    		
+            String direccion = "/ImagenesServer/"+fecha.getTime() +".jpg";
             for (Part part : request.getParts()) {
                 String name = null;
                 long size = 0;
-                
                 try {
                 	//Si es una imagen
                 	if(part.getContentType() != null && (
@@ -54,8 +71,10 @@ public class FileUpload {
                 		File f = new File(System.getProperty("user.home")+"/ImagenesServer/");
                 		// Crear
                 		f.mkdirs();
+                		
+                		
                 		//Archivo de salida (Falta cambiar nombre e ingresar a base de datos)
-                		f = new File(System.getProperty("user.home")+"/ImagenesServer/imagenn.jpg");
+                		f = new File(System.getProperty("user.home")+direccion);
                         FileOutputStream outputStream = new FileOutputStream(f);
                     	
     	        		int read = 0;
@@ -81,6 +100,23 @@ public class FileUpload {
                 		//nombre valor
                 		String nombreVar = part.getName();
                 		String value = responseStrBuilder.toString();
+                		Usuario u= usuarioEJB.obtenerUsuario(Integer.parseInt(value));
+                		for(Galeria g:u.getGaleriaCollection()){
+                            array.add(Json.createObjectBuilder().add("name", g.getTipo()));
+
+                			if(g.getTipo().equals("SUBIDA")){
+
+                				Foto f = new Foto();
+                				f.setImagen(System.getProperty("user.home")+direccion);
+                				f.setFechaSubida(fecha);
+                				f.setIdGaleria(g);
+                				g.getFotoCollection().add(f);
+                				f.setIdUsuario(u);
+                				fotoFacade.create(f);
+                				
+                			}
+                		}
+                		
             			//Para postman
                         array.add(Json.createObjectBuilder().add("name", nombreVar).add("value", value));
     	        		
