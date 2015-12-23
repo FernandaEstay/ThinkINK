@@ -107,4 +107,17 @@ public class UsuarioEJB implements UsuarioEJBLocal {
 		galeriaFacade.create(galeria);
 	}
 	
+	public Usuario obtenerUsuario(int id){
+		Usuario usuario = new Usuario();
+		List <Usuario> usuarios = usuarioFacade.findAll();
+		int largo = usuarios.size();
+		for(int i = 0; i < largo; i++){
+			if(usuarios.get(i).getIdUsuario() == id){
+				usuario = usuarios.get(i);
+				return usuario;
+			}
+		}
+		return usuario;
+		
+	}
 }

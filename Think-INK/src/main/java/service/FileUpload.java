@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Date;
 
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
@@ -38,7 +39,7 @@ public class FileUpload {
     public Response doUpload(@Context HttpServletRequest request) {
         JsonArrayBuilder array = Json.createArrayBuilder();
         try {
-        	
+  
             for (Part part : request.getParts()) {
                 String name = null;
                 long size = 0;
@@ -54,6 +55,10 @@ public class FileUpload {
                 		File f = new File(System.getProperty("user.home")+"/ImagenesServer/");
                 		// Crear
                 		f.mkdirs();
+                		
+                		Date fecha = new Date();
+                		String direccion = "/ImagenesServer/"+fecha.toString() +".jpg";
+                		
                 		//Archivo de salida (Falta cambiar nombre e ingresar a base de datos)
                 		f = new File(System.getProperty("user.home")+"/ImagenesServer/imagenn.jpg");
                         FileOutputStream outputStream = new FileOutputStream(f);
