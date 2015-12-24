@@ -1,5 +1,9 @@
 package service;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+
 import javax.ejb.EJB;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -29,13 +33,16 @@ public class RegistroService {
 	@Consumes({"application/json"})
 	@Produces({"application/json"})
 	public Response registro(Usuario usuario){
+
 		Usuario user = new Usuario();
+		
 		user = usuarioEJB.Registro(usuario);
+		
 		if(user.getCorreo() == null){
 			JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
 	        jsonObjBuilder.add("ERROR", "El nombre de usuario o correo no se encuentran disponibles");
 	        JsonObject jsonObj = jsonObjBuilder.build();
-	        return Response.status(Response.Status.OK).entity(jsonObj).build();
+			return Response.status(Response.Status.OK).entity(jsonObj).build();
 		}
 		else{
 			return Response.status(Response.Status.OK).entity(user).build();

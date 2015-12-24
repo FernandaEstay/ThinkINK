@@ -15,7 +15,7 @@
 	</filter>
 	<filter-mapping>
 		<filter-name>filter.Filtro</filter-name>
-		<url-pattern>/*</url-pattern>
+		<url-pattern>/rest/*</url-pattern>
 	</filter-mapping>
 
 	<servlet>

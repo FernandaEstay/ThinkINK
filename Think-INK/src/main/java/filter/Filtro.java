@@ -13,8 +13,17 @@ public class Filtro implements Filter {
 		FilterChain chain) throws IOException, ServletException {
 
 		((HttpServletResponse)response).addHeader(
-			"Access-Control-Allow-Origin", "*"
-		);
+				"Access-Control-Allow-Origin", "*"
+			);
+		((HttpServletResponse)response).addHeader(
+				"Access-Control-Allow-Credentials", "true"
+			);
+		((HttpServletResponse)response).addHeader(
+				"Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS, HEAD"
+			);
+		((HttpServletResponse)response).addHeader(
+				"Access-Control-Allow-Headers", "Content-Type, Accept, X-Requested-With"
+			);
 		chain.doFilter(request, response);
 	}
 }
