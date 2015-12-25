@@ -30,10 +30,12 @@ public class LoginService {
     @Consumes({"application/json"})
 	@Produces({"application/json"})
     public Response login(Usuario usuario){
-        
+		//if(true){return Response.status(Response.Status.OK).entity(usuario).build();}
+
 		Usuario usuarioLogin = new Usuario();
 		usuarioLogin = usuarioEJB.Login(usuario);
-		
+		//if(true){return Response.status(Response.Status.OK).entity(usuarioLogin).build();}
+
 		if(usuarioLogin.getCorreo() == null ){
 			JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
 	        jsonObjBuilder.add("ERROR", "nombre de usuario o contraseña inválida");

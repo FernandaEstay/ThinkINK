@@ -28,12 +28,12 @@ public class UsuarioEJB implements UsuarioEJBLocal {
          int largo = list.size();
          int contador = 0;
          while(largo != 0){
-             if(usuario.getNombreUsuario().equals(list.get(contador).getNombreUsuario()) && usuario.getPass().equals(list.get(contador).getPass())){
+             if(usuario.getCorreo().equals(list.get(contador).getCorreo()) && usuario.getPass().equals(list.get(contador).getPass())){
                  
             	 usuarioLogin.setCorreo(list.get(contador).getCorreo());
                  usuarioLogin.setIdUsuario(list.get(contador).getIdUsuario());
                  usuarioLogin.setNombreUsuario(list.get(contador).getNombreUsuario());
-            	 return usuarioLogin;
+            	 return list.get(contador);
              }
              contador ++;
              largo --;
