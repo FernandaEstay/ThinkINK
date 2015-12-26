@@ -53,11 +53,11 @@ public class FileUpload {
     @Path("fileupload")
     public Response doUpload(@Context HttpServletRequest request) {
         JsonArrayBuilder array = Json.createArrayBuilder();
-        try {
+        try {        	
         	Date fecha = new Date();
-    		
             String direccion = "/ImagenesServer/"+fecha.getTime() +".jpg";
             for (Part part : request.getParts()) {
+
                 String name = null;
                 long size = 0;
                 try {
