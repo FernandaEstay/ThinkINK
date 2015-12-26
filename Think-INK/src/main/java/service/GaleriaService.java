@@ -27,20 +27,11 @@ public class GaleriaService {
 	@Produces({"application/json"})
 	public List<Foto> verGaleria(Galeria galeria){
 		List<Foto> fotosGaleria =  galeriaEJB.obtenerGaleria(galeria);
-		/*if(fotosGaleria.size() == 0){
-			JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
-	        jsonObjBuilder.add("ERROR", "no hay fotos en esta galeria");
-	        JsonObject jsonObj = jsonObjBuilder.build();
-	        
-	        return Response.status(Response.Status.OK).entity(jsonObj).build();
-		}
-				return Response.status(Response.Status.OK).entity(fotosGaleria.get(0)).build();
-			//return null;*/
 		return fotosGaleria;
 	}
 	
 	@GET
-	@Path("/Prueba")		//lista todos los usuarios de la base de datos
+	@Path("/Prueba")	
 	@Produces({"application/json"})
 	public List<Galeria> prueba(){
 		return galeriaFacade.findAll();
