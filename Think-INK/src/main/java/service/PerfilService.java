@@ -1,6 +1,5 @@
 package service;
 
-
 import javax.ejb.EJB;
 import javax.json.Json;
 import javax.json.JsonObject;
@@ -16,9 +15,9 @@ import ejb.UsuarioEJBLocal;
 import facade.UsuarioEJBFacade;
 import models.Usuario;
 
-@Path("/registro")
-public class RegistroService {
-	
+@Path("/verPerfil")
+public class PerfilService {
+
 	@EJB
 	UsuarioEJBLocal usuarioEJB;
 	
@@ -28,20 +27,19 @@ public class RegistroService {
 	@POST 
 	@Consumes({"application/json"})
 	@Produces({"application/json"})
-	public Response registro(Usuario usuario){
-
-		Usuario user = new Usuario();
-		
-		user = usuarioEJB.Registro(usuario);
+	public Response perfil(Usuario usuario){
+		Usuario user = new Usuario(); 
+		user = usuarioEJB.perfilUsuario(usuario);
 		
 		if(user.getCorreo() == null){
 			JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
-	        jsonObjBuilder.add("ERROR", "El nombre de usuario o correo no se encuentran disponibles");
+	        jsonObjBuilder.add("ERROR", "No se encuentra el usuario");
 	        JsonObject jsonObj = jsonObjBuilder.build();
 			return Response.status(Response.Status.OK).entity(jsonObj).build();
 		}
 		else{
 			return Response.status(Response.Status.OK).entity(user).build();
-		}	
+		}
+		
 	}
 }

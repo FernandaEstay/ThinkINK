@@ -118,6 +118,24 @@ public class UsuarioEJB implements UsuarioEJBLocal {
 			}
 		}
 		return usuario;
-		
+	}
+	
+	public Usuario perfilUsuario(Usuario usuario){
+		Usuario user = new Usuario();
+		List <Usuario> usuarios = usuarioFacade.findAll();
+		int largo = usuarios.size();
+		for(int i = 0; i < largo; i++){
+			if(usuarios.get(i).getIdUsuario() == usuario.getIdUsuario()){
+				user.setAvatar(usuarios.get(i).getAvatar());
+				user.setCorreo(usuarios.get(i).getCorreo());
+				user.setDescripcion(usuarios.get(i).getDescripcion());
+				user.setFechaCreacion(usuarios.get(i).getFechaCreacion());
+				user.setIdUsuario(usuarios.get(i).getIdUsuario());
+				user.setNombreUsuario(usuarios.get(i).getNombreUsuario());
+				user.setPortada(usuarios.get(i).getPortada());
+				user.setTipoUsuario(usuarios.get(i).getTipoUsuario());
+			}
+		}
+		return user;
 	}
 }

@@ -1,23 +1,16 @@
 package service;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import javax.ejb.EJB;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonObjectBuilder;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.Response;
 
 import ejb.GaleriaEJBLocal;
 import models.Foto;
-import models.Usuario;
 import models.Galeria;
 import facade.GaleriaEJBFacade;
 
