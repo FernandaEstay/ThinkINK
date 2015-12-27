@@ -36,8 +36,12 @@ public class GaleriaService {
 		List<Foto> fotosGaleria =  galeriaEJB.obtenerGaleria(galeria);
 		JsonArrayBuilder jsonArrBuilder = Json.createArrayBuilder();
 		for(Foto f : fotosGaleria){
-			jsonArrBuilder.add(f.getIdFoto());
+			
+			jsonArrBuilder.add(Json.createObjectBuilder().add("idFoto", f.getIdFoto())
+					.add("fecha", f.getFechaSubida().toString())
+					.add("idUsuario", f.getIdUsuario().getIdUsuario()));
 		}
+		
         JsonArray jsonObj = jsonArrBuilder.build();
 		return Response.status(Response.Status.OK).entity(jsonObj).build();
 
