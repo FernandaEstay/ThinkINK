@@ -32,6 +32,7 @@ import javax.ws.rs.core.Response;
 import ejb.UsuarioEJB;
 import ejb.UsuarioEJBLocal;
 import facade.FotoEJBFacade;
+import facade.GaleriaEJBFacade;
 import facade.UsuarioEJBFacade;
 import models.Foto;
 import models.Galeria;
@@ -50,6 +51,8 @@ public class FileUpload {
 	UsuarioEJBFacade userFacade;
 	@EJB
 	FotoEJBFacade fotoFacade;
+	@EJB
+	GaleriaEJBFacade galeriaFacade;
 	//Maneja las imagenes en la url Think-INK/rest/fileupload
 	//la parte de /rest/ esta en el archivo web.xml
     @POST
@@ -57,6 +60,8 @@ public class FileUpload {
     @Path("fileupload")
     public Response doUpload(@Context HttpServletRequest request) {
         JsonArrayBuilder array = Json.createArrayBuilder();
+		JsonArrayBuilder jsonArrBuilder = Json.createArrayBuilder();
+		JsonObject json = null;
         try {
         	Date fecha = new Date();
             String direccion = "/ImagenesServer/"+fecha.getTime() +".jpg";
@@ -84,10 +89,10 @@ public class FileUpload {
 					ImageIO.write(imBuff, "JPG", outputStream);
 					outputStream.close();
 
-					BufferedImage dest = new BufferedImage((400*imBuff.getWidth())/imBuff.getHeight(), 400 , BufferedImage.TYPE_INT_RGB);
+					BufferedImage dest = new BufferedImage((800*imBuff.getWidth())/imBuff.getHeight(), 800 , BufferedImage.TYPE_INT_RGB);
 					Graphics2D g = dest.createGraphics();
 
-					g.drawImage(imBuff,0,0,(400*imBuff.getWidth())/imBuff.getHeight(),400,null);
+					g.drawImage(imBuff,0,0,(800*imBuff.getWidth())/imBuff.getHeight(),800,null);
 
 					f = new File(System.getProperty("user.home")+direccionResized);
 							FileOutputStream outputStream2 = new FileOutputStream(f);
@@ -132,9 +137,14 @@ public class FileUpload {
                 				f.setFechaSubida(fecha);
                 				f.setIdGaleria(g);
                 				g.getFotoCollection().add(f);
+                				
                 				f.setIdUsuario(u);
+                				galeriaFacade.edit(g);
                 				fotoFacade.create(f);
-
+								json = Json.createObjectBuilder().add("idFoto", f.getIdFoto())
+                						.add("fecha", f.getFechaSubida().toString())
+                						.add("idUsuario", f.getIdUsuario().getIdUsuario())
+                						.add("nombre", f.getIdUsuario().getNombreUsuario()).build();
                 			}
                 		}
 
@@ -158,7 +168,7 @@ public class FileUpload {
         }
 
         JsonObject ret = Json.createObjectBuilder().add("argumentos", array).build();
-        return Response.status(201).entity(ret).build();
+        return Response.status(201).entity(json).build();
     }
     //Funcion auxiliar
 	private static String getSubmittedFileName(Part part) {
