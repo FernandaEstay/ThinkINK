@@ -15,11 +15,11 @@ import models.Foto;
 
 @Path("/verFoto")
 public class VerFotoService {
-	
+
 	@EJB
 	FotoEJBLocal fotoEJB;
-	
-	@POST 
+
+	@POST
 	@Consumes({"application/json"})
 	@Produces({"application/json"})
 	public Response verFoto(Foto foto){
@@ -31,7 +31,7 @@ public class VerFotoService {
 			return Response.status(Response.Status.OK).entity(jsonObj).build();
 		}
 		return Response.status(Response.Status.OK).entity(f).build();
-		
+
 	}
-	
+
 }

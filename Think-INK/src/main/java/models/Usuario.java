@@ -91,6 +91,15 @@ public class Usuario implements Serializable {
     @Lob
     @Column(name = "PORTADA")
     private String portada;
+
+    /*Atributos redimensionados*/
+    @Lob
+    @Column(name = "AVATAR_R")
+    private String avatarResized;
+    @Lob
+    @Column(name = "PORTADA_R")
+    private String portadaResized;
+    /*==========*/
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
     private Collection<Galeria> galeriaCollection;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "idUsuario")
@@ -199,6 +208,24 @@ public class Usuario implements Serializable {
         this.portada = portada;
     }
 
+    /*=========Redimensionados============*/
+    public String getAvatarResized() {
+        return avatarResized;
+    }
+
+    public void setAvatarResized(String avatarResized) {
+        this.avatarResized = avatarResized;
+    }
+
+    public String getPortadaResized() {
+        return portadaResized;
+    }
+
+    public void setPortada(String portadaResized) {
+        this.portadaResized = portadaResized;
+    }
+    /*================*/
+
     @XmlTransient
     public Collection<Galeria> getGaleriaCollection() {
         return galeriaCollection;
@@ -267,5 +294,5 @@ public class Usuario implements Serializable {
     public String toString() {
         return "models.Usuario[ idUsuario=" + idUsuario + " ]";
     }
-    
+
 }

@@ -21,7 +21,7 @@
 	<servlet>
 	    <servlet-name>service.JaxRsActivator</servlet-name>
 	    <multipart-config>
-	        <location>/home/fernanda</location>
+	        <location>/home/atal</location>
 	        <max-file-size>35000000</max-file-size>
 	        <max-request-size>218018841</max-request-size>
 	        <file-size-threshold>0</file-size-threshold>

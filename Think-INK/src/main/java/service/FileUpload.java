@@ -1,4 +1,5 @@
 package service;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -11,6 +12,7 @@ import java.io.StringWriter;
 import java.util.Date;
 
 import javax.ejb.EJB;
+import javax.imageio.ImageIO;
 import javax.json.Json;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
@@ -36,10 +38,13 @@ import models.Foto;
 import models.Galeria;
 import models.Usuario;
 
+import java.awt.Graphics2D;
+import java.awt.geom.AffineTransform;
+
 @Path("/")
 public class FileUpload {
-	
-	
+
+
 	@EJB
 	UsuarioEJBLocal usuarioEJB;
 	@EJB
@@ -53,9 +58,10 @@ public class FileUpload {
     @Path("fileupload")
     public Response doUpload(@Context HttpServletRequest request) {
         JsonArrayBuilder array = Json.createArrayBuilder();
-        try {        	
+        try {
         	Date fecha = new Date();
             String direccion = "/ImagenesServer/"+fecha.getTime() +".jpg";
+						String direccionResized = "/ImagenesServer/"+fecha.getTime() +"Resized.jpg";
             for (Part part : request.getParts()) {
 
                 String name = null;
@@ -66,34 +72,47 @@ public class FileUpload {
                 			part.getContentType().toLowerCase()
                             .startsWith("multipart/") || part.getContentType().toLowerCase()
                             .startsWith("image"))){
-                		InputStream inputStream = part.getInputStream();
-                		//Se selecciona el directorio donde se guardan las imagenes
-                		File f = new File(System.getProperty("user.home")+"/ImagenesServer/");
-                		// Crear
-                		f.mkdirs();
-                		
-                		
-                		//Archivo de salida (Falta cambiar nombre e ingresar a base de datos)
-                		f = new File(System.getProperty("user.home")+direccion);
-                        FileOutputStream outputStream = new FileOutputStream(f);
-                    	
-    	        		int read = 0;
+              		InputStream inputStream = part.getInputStream();
+              		//Se selecciona el directorio donde se guardan las imagenes
+              		File f = new File(System.getProperty("user.home")+"/ImagenesServer/");
+              		// Crear
+              		f.mkdirs();
+
+									//Se transforma el inputStream a una "imagen"
+									BufferedImage imBuff = ImageIO.read(inputStream);
+									f = new File(System.getProperty("user.home")+direccion);
+											FileOutputStream outputStream = new FileOutputStream(f);
+									ImageIO.write(imBuff, "JPG", outputStream);
+									outputStream.close();
+
+									BufferedImage dest = new BufferedImage((400*imBuff.getWidth())/imBuff.getHeight(), 400 , BufferedImage.TYPE_INT_RGB);
+									Graphics2D g = dest.createGraphics();
+
+									g.drawImage(imBuff,0,0,(400*imBuff.getWidth())/imBuff.getHeight(),400,null);
+
+									f = new File(System.getProperty("user.home")+direccionResized);
+											FileOutputStream outputStream2 = new FileOutputStream(f);
+									ImageIO.write(dest, "JPG", outputStream2);
+									outputStream2.close();
+
+
+    	        		/*int read = 0;
     	        		byte[] bytes = new byte[1024];
-    	
-    	        		while ((read = inputStream.read(bytes)) != -1) {
+
+    	        		while ((read = resizeImg.read(bytes)) != -1) {
     	        			outputStream.write(bytes, 0, read);
     	        		}
     	        		outputStream.close();
-
+									*/
                 		name = getSubmittedFileName(part);
                         size = part.getSize();
                         //part.delete();
             		//Si es un dato adicional
                 	}else{
                 		//Leyendo valor
-                		BufferedReader streamReader = new BufferedReader(new InputStreamReader(part.getInputStream(), "UTF-8")); 
+                		BufferedReader streamReader = new BufferedReader(new InputStreamReader(part.getInputStream(), "UTF-8"));
                 		StringBuilder responseStrBuilder = new StringBuilder();
-            			
+
                 		String inputStr;
                 		while ((inputStr = streamReader.readLine()) != null)
                 		    responseStrBuilder.append(inputStr);
@@ -108,21 +127,22 @@ public class FileUpload {
 
                 				Foto f = new Foto();
                 				f.setImagen(System.getProperty("user.home")+direccion);
+												f.setImagenResized(System.getProperty("user.home")+direccionResized);
                 				f.setFechaSubida(fecha);
                 				f.setIdGaleria(g);
                 				g.getFotoCollection().add(f);
                 				f.setIdUsuario(u);
                 				fotoFacade.create(f);
-                				
+
                 			}
                 		}
-                		
+
             			//Para postman
                         array.add(Json.createObjectBuilder().add("name", nombreVar).add("value", value));
-    	        		
+
                         part.delete();
                 	}
-                	
+
                 //En caso de excepcion devuelve un json con el mensaje
                 } catch (Exception e) {
                 	e.printStackTrace();
