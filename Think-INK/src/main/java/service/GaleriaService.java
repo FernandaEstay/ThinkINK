@@ -18,6 +18,7 @@ import javax.ws.rs.core.Response;
 import ejb.GaleriaEJBLocal;
 import models.Foto;
 import models.Galeria;
+import models.Usuario;
 import facade.GaleriaEJBFacade;
 
 @Path("/verGaleria")

@@ -41,8 +41,9 @@ public class GaleriaEJB implements GaleriaEJBLocal{
 		List<Galeria> galerias = galeriaFacade.findAll();
 		//List<Foto> fotos = fotoFacade.findAll();
 		List<Foto> fotosEncontradas = new ArrayList<Foto>();
+		
 		for(Galeria g : galerias){
-			if(g.getIdGaleria() == galeria.getIdGaleria()){
+			if(g.getTipo().equals(galeria.getTipo()) && g.getIdUsuario().getIdUsuario() == galeria.getIdUsuario().getIdUsuario()){
 				fotosEncontradas.addAll(g.getFotoCollection());
 				return fotosEncontradas;
 			}
