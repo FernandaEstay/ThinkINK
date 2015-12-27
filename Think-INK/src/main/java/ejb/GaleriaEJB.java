@@ -39,11 +39,18 @@ public class GaleriaEJB implements GaleriaEJBLocal{
 	
 	public List<Foto> obtenerGaleria(Galeria galeria){
 		List<Galeria> galerias = galeriaFacade.findAll();
-		List<Foto> fotos = fotoFacade.findAll();
+		//List<Foto> fotos = fotoFacade.findAll();
 		List<Foto> fotosEncontradas = new ArrayList<Foto>();
 		for(Galeria g : galerias){
+			if(g.getIdGaleria() == galeria.getIdGaleria()){
+				fotosEncontradas.addAll(g.getFotoCollection());
+				return fotosEncontradas;
+			}
+		}
+			/*
 			for(Foto f : fotos){
-				if(g.getIdUsuario().getIdUsuario() == galeria.getIdUsuario().getIdUsuario() && g.getTipo().equals(galeria.getTipo()) && f.getIdGaleria() == g){
+				//if(g.getIdUsuario().getIdUsuario() == galeria.getIdUsuario().getIdUsuario() && g.getTipo().equals(galeria.getTipo()) && f.getIdGaleria() == g){
+				if(f.getIdGaleria() == g){
 					
 					Foto fotoNueva = new Foto();
 					fotoNueva.setIdFoto(f.getIdFoto());
@@ -67,7 +74,7 @@ public class GaleriaEJB implements GaleriaEJBLocal{
 					fotosEncontradas.add(fotoNueva);
 				}
 			}
-		}
+		}*/
 		return fotosEncontradas;
 	}
 }
