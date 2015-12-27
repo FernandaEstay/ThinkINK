@@ -39,6 +39,7 @@ import javax.xml.bind.annotation.XmlTransient;
     @NamedQuery(name = "Foto.findAll", query = "SELECT f FROM Foto f"),
     @NamedQuery(name = "Foto.findByIdFoto", query = "SELECT f FROM Foto f WHERE f.idFoto = :idFoto"),
     @NamedQuery(name = "Foto.findByImagen", query = "SELECT f FROM Foto f WHERE f.imagen = :imagen"),
+    @NamedQuery(name = "Foto.findByImagenR", query = "SELECT f FROM Foto f WHERE f.imagenResized = :imagenResized"),
     @NamedQuery(name = "Foto.findByFechaSubida", query = "SELECT f FROM Foto f WHERE f.fechaSubida = :fechaSubida"),
     @NamedQuery(name = "Foto.findByCantMeGusta", query = "SELECT f FROM Foto f WHERE f.cantMeGusta = :cantMeGusta")})
 public class Foto implements Serializable {
@@ -52,6 +53,9 @@ public class Foto implements Serializable {
     @Size(max = 1024)
     @Column(name = "IMAGEN")
     private String imagen;
+    @Size(max = 1024)
+    @Column(name = "IMAGE_R")
+    private String imagenResized;
     @Column(name = "FECHA_SUBIDA")
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaSubida;
@@ -91,6 +95,14 @@ public class Foto implements Serializable {
 
     public void setImagen(String imagen) {
         this.imagen = imagen;
+    }
+
+    public String getImagenResized() {
+        return imagenResized;
+    }
+
+    public void setImagenResized(String imagenResized) {
+        this.imagenResized = imagenResized;
     }
 
     public Date getFechaSubida() {
@@ -176,5 +188,5 @@ public class Foto implements Serializable {
     public String toString() {
         return "models.Foto[ idFoto=" + idFoto + " ]";
     }
-    
+
 }

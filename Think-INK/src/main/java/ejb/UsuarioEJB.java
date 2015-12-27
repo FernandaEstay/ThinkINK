@@ -20,28 +20,27 @@ public class UsuarioEJB implements UsuarioEJBLocal {
 	@EJB
 	GaleriaEJBFacade galeriaFacade;
 	
-	@Override
 	public Usuario Login(Usuario usuario){
 		 List <Usuario> list = usuarioFacade.findAll();
 		 Usuario usuarioLogin = new Usuario();
 		 
-         int largo = list.size();
-         int contador = 0;
-         while(largo != 0){
-             if(usuario.getNombreUsuario().equals(list.get(contador).getNombreUsuario()) && usuario.getPass().equals(list.get(contador).getPass())){
-                 
-            	 usuarioLogin.setCorreo(list.get(contador).getCorreo());
-                 usuarioLogin.setIdUsuario(list.get(contador).getIdUsuario());
-                 usuarioLogin.setNombreUsuario(list.get(contador).getNombreUsuario());
-            	 return usuarioLogin;
-             }
-             contador ++;
-             largo --;
-         }
-         return usuarioLogin;   
+        int largo = list.size();
+        int contador = 0;
+        while(largo != 0){
+            if(usuario.getCorreo().equals(list.get(contador).getCorreo()) && usuario.getPass().equals(list.get(contador).getPass())){
+                
+            	usuarioLogin.setCorreo(list.get(contador).getCorreo());
+	            usuarioLogin.setIdUsuario(list.get(contador).getIdUsuario());
+	            usuarioLogin.setNombreUsuario(list.get(contador).getNombreUsuario());
+	            
+           	 return usuarioLogin;
+            }
+            contador ++;
+            largo --;
+        }
+        return usuarioLogin;   
 	}
 	
-	@Override
 	public Usuario Registro(Usuario usuario){
 		
 		Usuario usuarioRegistro = new Usuario();
@@ -138,4 +137,5 @@ public class UsuarioEJB implements UsuarioEJBLocal {
 		}
 		return user;
 	}
+
 }

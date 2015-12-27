@@ -21,7 +21,6 @@ public class FotoEJB implements FotoEJBLocal {
 	@EJB
 	UsuarioEJBFacade usuarioFacade;
 	
-	@Override
 	public String subirFoto(Foto foto){
 		if(comprobarID(foto)){
 			fotoFacade.create(foto);
