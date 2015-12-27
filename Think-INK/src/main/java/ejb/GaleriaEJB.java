@@ -44,7 +44,11 @@ public class GaleriaEJB implements GaleriaEJBLocal{
 		
 		for(Galeria g : galerias){
 			if(g.getTipo().equals(galeria.getTipo()) && g.getIdUsuario().getIdUsuario() == galeria.getIdUsuario().getIdUsuario()){
-				fotosEncontradas.addAll(g.getFotoCollection());
+				for(Foto f:g.getFotoCollection()){
+					fotosEncontradas.add(f);
+				}
+				
+				//fotosEncontradas.addAll(g.getFotoCollection());
 				return fotosEncontradas;
 			}
 		}

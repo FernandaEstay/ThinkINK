@@ -39,7 +39,9 @@ public class GaleriaService {
 			
 			jsonArrBuilder.add(Json.createObjectBuilder().add("idFoto", f.getIdFoto())
 					.add("fecha", f.getFechaSubida().toString())
-					.add("idUsuario", f.getIdUsuario().getIdUsuario()));
+					.add("idUsuario", f.getIdUsuario().getIdUsuario())
+					.add("nombre", f.getIdUsuario().getNombreUsuario())
+					);
 		}
 		
         JsonArray jsonObj = jsonArrBuilder.build();
@@ -50,7 +52,18 @@ public class GaleriaService {
 	@GET
 	@Path("/Prueba")	
 	@Produces({"application/json"})
-	public List<Galeria> prueba(){
-		return galeriaFacade.findAll();
+	public Response prueba(){		
+		JsonArrayBuilder jsonArrBuilder = Json.createArrayBuilder();
+
+		for(Foto f : galeriaFacade.findAll().get(0).getFotoCollection()){
+					
+			jsonArrBuilder.add(Json.createObjectBuilder().add("idFoto", f.getIdFoto())
+					.add("fecha", f.getFechaSubida().toString())
+					.add("idUsuario", f.getIdUsuario().getIdUsuario()));
+		}
+		
+        JsonArray jsonObj = jsonArrBuilder.build();
+		return Response.status(Response.Status.OK).entity(jsonObj).build();
+		//return galeriaFacade.findAll();
 	}
 }
