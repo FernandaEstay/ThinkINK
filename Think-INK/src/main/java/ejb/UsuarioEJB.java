@@ -138,4 +138,14 @@ public class UsuarioEJB implements UsuarioEJBLocal {
 		return user;
 	}
 
+	public Boolean comprobarUsuario(Usuario usuario){
+		List<Usuario> usuarios = usuarioFacade.findAll();
+		for(Usuario u:usuarios){
+			if(u.getIdUsuario() == usuario.getIdUsuario()){
+				return true;
+			}
+		}
+		return false;
+	}
+
 }

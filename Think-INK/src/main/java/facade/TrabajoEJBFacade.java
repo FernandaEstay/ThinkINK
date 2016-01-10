@@ -4,14 +4,14 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import models.Foto;
+import models.Trabajo;
 
 @Stateless
-public class FotoEJBFacade extends AbstractFacade<Foto> {
+public class TrabajoEJBFacade extends AbstractFacade<Trabajo> {
 	@PersistenceContext(unitName = "thinkINK")
 	private EntityManager em;
-    public FotoEJBFacade() {
-        super(Foto.class);
+    public TrabajoEJBFacade() {
+        super(Trabajo.class);
     }
 
     @Override

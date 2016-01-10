@@ -58,9 +58,9 @@ public class Trabajo implements Serializable {
     @Column(name = "COMUNA")
     private String comuna;
     @Column(name = "LATITUD")
-    private Long latitud;
+    private Double latitud;
     @Column(name = "LONGITUD")
-    private Long longitud;
+    private Double longitud;
     @OneToMany(mappedBy = "idTrabajo")
     private Collection<Usuario> usuarioCollection;
 
@@ -111,19 +111,19 @@ public class Trabajo implements Serializable {
         this.comuna = comuna;
     }
 
-    public Long getLatitud() {
+    public Double getLatitud() {
         return latitud;
     }
 
-    public void setLatitud(Long latitud) {
+    public void setLatitud(Double  latitud) {
         this.latitud = latitud;
     }
 
-    public Long getLongitud() {
+    public Double getLongitud() {
         return longitud;
     }
 
-    public void setLongitud(Long longitud) {
+    public void setLongitud(Double longitud) {
         this.longitud = longitud;
     }
 
@@ -160,5 +160,5 @@ public class Trabajo implements Serializable {
     public String toString() {
         return "models.Trabajo[ idTrabajo=" + idTrabajo + " ]";
     }
-    
+
 }
