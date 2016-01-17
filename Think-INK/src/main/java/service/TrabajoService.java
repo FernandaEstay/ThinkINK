@@ -55,17 +55,17 @@ public class TrabajoService {
 
 			        return Response.status(201).build();
   				}
-		@POST
-		@Path("/Prueba2")
-		@Produces({"application/json"})
-		public Trabajo prueba(Usuario usuario){
-			Usuario u = usuarioEJB.obtenerUsuario(usuario.getIdUsuario());
-			return u.getIdTrabajo();
-		}
-		@GET
-		@Path("/Prueba")
-		@Produces({"application/json"})
-		public List<Trabajo> prueba(){
-			return trabajoFacade.findAll();
-		}
+	@POST
+	@Path("/obtenerTrabajo")
+	@Produces({"application/json"})
+	public Trabajo prueba(Usuario usuario){
+		Usuario u = usuarioEJB.obtenerUsuario(usuario.getIdUsuario());
+		return u.getIdTrabajo();
+	}
+	@GET
+	@Path("/Prueba")
+	@Produces({"application/json"})
+	public List<Trabajo> prueba(){
+		return trabajoFacade.findAll();
+	}
 	}
