@@ -60,7 +60,7 @@ public class Foto implements Serializable {
     @Temporal(TemporalType.TIMESTAMP)
     private Date fechaSubida;
     @Column(name = "CANT_ME_GUSTA")
-    private BigInteger cantMeGusta;
+    private int cantMeGusta;
     @JoinColumn(name = "ID_GALERIA", referencedColumnName = "ID_GALERIA")
     @ManyToOne(optional = false)
     private Galeria idGaleria;
@@ -113,11 +113,11 @@ public class Foto implements Serializable {
         this.fechaSubida = fechaSubida;
     }
 
-    public BigInteger getCantMeGusta() {
+    public int getCantMeGusta() {
         return cantMeGusta;
     }
 
-    public void setCantMeGusta(BigInteger cantMeGusta) {
+    public void setCantMeGusta(int cantMeGusta) {
         this.cantMeGusta = cantMeGusta;
     }
 

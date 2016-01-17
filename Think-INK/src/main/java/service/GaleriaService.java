@@ -41,6 +41,7 @@ public class GaleriaService {
 					.add("fecha", f.getFechaSubida().toString())
 					.add("idUsuario", f.getIdUsuario().getIdUsuario())
 					.add("nombre", f.getIdUsuario().getNombreUsuario())
+					.add("cantidadMegusta", f.getCantMeGusta())
 					);
 		}
 		
