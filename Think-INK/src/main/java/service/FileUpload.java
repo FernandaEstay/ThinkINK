@@ -144,7 +144,9 @@ public class FileUpload {
 								json = Json.createObjectBuilder().add("idFoto", f.getIdFoto())
                 						.add("fecha", f.getFechaSubida().toString())
                 						.add("idUsuario", f.getIdUsuario().getIdUsuario())
-                						.add("nombre", f.getIdUsuario().getNombreUsuario()).build();
+                						.add("nombre", f.getIdUsuario().getNombreUsuario())
+                						.add("cantidadMegusta", f.getCantMeGusta())
+                						.add("likeAble", true).build();
                 			}
                 		}
 

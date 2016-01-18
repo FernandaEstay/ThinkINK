@@ -52,8 +52,8 @@ public class TrabajoService {
           u.setIdTrabajo(t);
           usuarioFacade.edit(u);
           if(!trabajoEJB.comprobarTrabajo(t)) trabajoFacade.create(t); //Si no existe el trabajo, entonces se guarda
-
-			        return Response.status(201).build();
+          			
+			        return Response.status(201).entity(request).build();
   				}
 	@POST
 	@Path("/obtenerTrabajo")

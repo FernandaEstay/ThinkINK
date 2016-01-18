@@ -39,7 +39,10 @@ public class MeGustaService {
 		int idFoto = request.getInt("idFoto");
 			
 	    if(meGustaEJB.guardarMegusta(idUsuario, idFoto)){
-		    return Response.status(201).build();
+	    	JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
+	        jsonObjBuilder.add("Ok", "Ok");
+	        JsonObject jsonObj = jsonObjBuilder.build();
+		    return Response.status(201).entity(jsonObj).build();
 	  	}
 		JsonObjectBuilder jsonObjBuilder = Json.createObjectBuilder();
         jsonObjBuilder.add("ERROR", "No a sido posible llevar a cabo su solicitud");
