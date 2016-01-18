@@ -9,7 +9,9 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Collections;
 import java.util.Date;
+import java.util.List;
 
 import javax.ejb.EJB;
 import javax.imageio.ImageIO;
@@ -29,6 +31,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
+import ejb.GaleriaEJBLocal;
 import ejb.UsuarioEJB;
 import ejb.UsuarioEJBLocal;
 import facade.FotoEJBFacade;
@@ -53,6 +56,8 @@ public class FileUpload {
 	FotoEJBFacade fotoFacade;
 	@EJB
 	GaleriaEJBFacade galeriaFacade;
+	@EJB
+	GaleriaEJBLocal galeriaEJB;
 	//Maneja las imagenes en la url Think-INK/rest/fileupload
 	//la parte de /rest/ esta en el archivo web.xml
     @POST
@@ -140,7 +145,10 @@ public class FileUpload {
                 				
                 				f.setIdUsuario(u);
                 				galeriaFacade.edit(g);
-                				fotoFacade.create(f);
+                				//fotoFacade.create(f);
+                				List<Foto> fotosGaleria =  galeriaEJB.obtenerGaleria(g);
+                				Collections.reverse(fotosGaleria);
+                				f = fotosGaleria.get(0);
 								json = Json.createObjectBuilder().add("idFoto", f.getIdFoto())
                 						.add("fecha", f.getFechaSubida().toString())
                 						.add("idUsuario", f.getIdUsuario().getIdUsuario())
