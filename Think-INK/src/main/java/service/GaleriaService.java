@@ -15,6 +15,7 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 
 import ejb.GaleriaEJBLocal;
+import ejb.MeGustaEJBLocal;
 import models.Foto;
 import models.Galeria;
 import facade.GaleriaEJBFacade;
@@ -23,7 +24,8 @@ import facade.GaleriaEJBFacade;
 public class GaleriaService {
 	@EJB
 	GaleriaEJBLocal galeriaEJB;
-	
+	@EJB
+	MeGustaEJBLocal meGustaEJB;
 	@EJB
 	GaleriaEJBFacade galeriaFacade;
 	
@@ -42,6 +44,7 @@ public class GaleriaService {
 					.add("idUsuario", f.getIdUsuario().getIdUsuario())
 					.add("nombre", f.getIdUsuario().getNombreUsuario())
 					.add("cantidadMegusta", f.getCantMeGusta())
+					.add("likeAble", meGustaEJB.existeMegusta(f.getIdUsuario().getIdUsuario(), f.getIdFoto()))
 					);
 		}
 		

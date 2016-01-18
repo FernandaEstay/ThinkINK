@@ -44,6 +44,16 @@ public class MeGustaEJB implements MeGustaEJBLocal{
 		}
 		return false;
 	}
+	
+	public boolean existeMegusta(int idUsuario, int idFoto){
+		
+		for(MeGusta m:megustaFacade.findAll()){
+			if(m.getIdFoto().getIdFoto() == idFoto && m.getIdUsuario().getIdUsuario() == idUsuario){
+				return false;
+			}
+		}
+		return true;
+	}
 	/**
 	 * Función que comprueba la existencia de un usuario a través de la ID
 	 * @param id
